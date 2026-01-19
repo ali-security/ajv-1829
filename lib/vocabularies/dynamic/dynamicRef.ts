@@ -38,7 +38,7 @@ export function dynamicRef(cxt: KeywordCxt, ref: string): void {
     // Step 2: If found in localRefs but not yet compiled, compile it
     let anchorValidate: Code | undefined
     if (anchorSchema && !it.schemaEnv.root.dynamicAnchors[anchor]) {
-      const sch = compileAnchorSchema(cxt, anchorSchema, anchor)
+      const sch = compileAnchorSchema(anchorSchema)
       if (sch) {
         anchorValidate = getValidate(cxt, sch)
         // Mark as having dynamic anchor so we use dynamic lookup
@@ -63,12 +63,7 @@ export function dynamicRef(cxt: KeywordCxt, ref: string): void {
     }
   }
 
-  function compileAnchorSchema(
-    cxt: KeywordCxt,
-    schema: AnySchema,
-    _anchor: string
-  ): SchemaEnv | undefined {
-    const {it} = cxt
+  function compileAnchorSchema(schema: AnySchema): SchemaEnv | undefined {
     const {schemaEnv, self} = it
     const {root, baseId, localRefs, meta} = schemaEnv.root
     const {schemaId} = self.opts
